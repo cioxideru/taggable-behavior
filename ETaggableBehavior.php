@@ -625,6 +625,20 @@ class ETaggableBehavior extends CActiveRecordBehavior {
 
 		return $this->getOwner();
 	}
+
+	/**
+	 * Limit current AR query to have all tags specified.
+	 * @param string|array $tags
+	 * @return CActiveRecord
+	 */
+	public function taggedWithToCriteria($tags, $criteria) {
+		$tags = $this->toTagsArray($tags);
+
+		if(!empty($tags)){
+			$_criteria = $this->getFindByTagsCriteria($tags);
+			$criteria->mergeWith($_criteria);
+		}
+	}
 	/**
 	 * Alias of {@link taggedWith()}.
 	 * @param string|array $tags
